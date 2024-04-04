@@ -14,7 +14,7 @@ int main(void) {
 		Display_Board();
 		break;
 	case 2:
-		Load_File();
+		Load_Board();
 		break;
 	case 3:
 		Edit_List();
