@@ -13,15 +13,13 @@ void Load_Board(){
 	printf("Please enter the name of the file you wish to enter. Enter 'default' for the default board.\n");
 	fflush(stdout);
 	scanf("%s", FILE_NAME);
-	printf("%s\n",FILE_NAME);
+
 
 	FILE *fp;
-	fp = fopen("default.txt", "r+");
 
-	if (fp == NULL) {
+	if ((fp = fopen(FILE_NAME, "r+"))== NULL) {
 		printf("File failed to be opened. Please enter the name again.\n");
 		fflush(stdout);
-		Load_Board();
 	} else {
 		printf("File opened successfully.\n");
 		fflush(stdout);
