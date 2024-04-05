@@ -58,27 +58,31 @@ void chain(ListNodePtr *sPtr, char *data, unsigned int person_or_item){
 
 	} else{
 		printf("No memory slot available\n");
+		fflush(stdout);
 	}
 }
 void print_chain(ListNodePtr Board){
     while ( Board != NULL ) {
     	Board->name[(strlen(Board->name)) - 1] = '>';
         printf( "%d %s",  Board->person, Board->name);
+        fflush(stdout);
         Board = Board->next;
      }
     puts("");
+    fflush(stdout);
     puts("");
+    fflush(stdout);
 }
 
 void Load_Board(){
 
 	char line[50];
-	printf("Please enter the name of the file you wish to enter. Enter 'default' for the default board.\n");
+	printf("Please enter the name of the file you wish to enter. Enter 'default.txt' for the default board.\n");
 	fflush(stdout);
 
 	scanf("%s",file);
 	printf("%s\n", file);
-
+	fflush(stdout);
 
 	FILE *fp;
 
@@ -116,6 +120,7 @@ void Edit_List(){
 	  4. Return to main menu */
 
 	printf("Edit %s\n", file);
+	fflush(stdout);
 	unsigned short int user_choice;
 	char input[50];
 	char line[50];
@@ -128,32 +133,38 @@ void Edit_List(){
 	}
 
 	printf("Enter the name of the list to edit:");
+	fflush(stdout);
 	scanf("%s", input);
 	input[strlen(input)] = ':';
 	input[strlen(input)] = '\n';
 	printf("Looking for %s\n", input);
+	fflush(stdout);
 	/*Testing printing input file*/
 
 	while(fgets(line, sizeof(line), fp)){
 		if(strcmp(input, line) == 0){
-			printf("found\n");
+			printf("Found.\n");
+			fflush(stdout);
 			printf("Options:\n "
 					"1. Edit an item\n"
 					"2. Add a new item\n"
 					"3. Delete an item\n"
 					"4. Return to main menu\n"
 					"Enter your option: ");
+			fflush(stdout);
 		scanf("%hd", &user_choice);
 		ch = getchar();
 		while(user_choice < 1 || user_choice > 4){
 			if(ch == '\n'){
 				puts("Invalid input");
+				fflush(stdout);
 				printf("Options:\n"
 					   "1. Edit an item\n"
 					   "2. Add a new item\n"
 					   "3. Delete an item\n"
 					   "4. Return to main menu\n"
 					   "Enter your option: ");
+				fflush(stdout);
 				scanf("%hd", &user_choice);
 						}
 			else{
@@ -162,24 +173,31 @@ void Edit_List(){
 			ch = getchar();
 		}
 		printf("Input before switch: %s, length %lu\n", input, strlen(input));
+		fflush(stdout);
 		switch(user_choice){
 		case 1:
 			printf("Enter the name of the item to edit:\n");
+			fflush(stdout);
 			fgets(input, 50, stdin);
 			int i =0;
 
 			printf("Input: %s, length %lu\n", input, strlen(input));
+			fflush(stdout);
 
 			/*Stuck here when comparing input let say Oculus Pro and cannot match it*/
 			fgets(line, sizeof(line), fp);
 			printf("Line: %s", line);
+			fflush(stdout);
 			printf("%lu\n", strlen(line));
+			fflush(stdout);
 			if(strcmp(line, input) == 0){
 				printf("True");
+				fflush(stdout);
 				break;
 			}
 			while(i < strlen(input)){
 				printf("%d %d\n", input[i], line[i]);
+				fflush(stdout);
 				i++;
 			}
 		}
