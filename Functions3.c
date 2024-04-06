@@ -119,10 +119,11 @@ bool ListFound(ListNodePtr Board, char *data){
     	}
     	if (CurrentPtr->next  == NULL){
     		printf("List not found\n");
+    		return false;
     	}
     	CurrentPtr  = CurrentPtr ->next;
      }
-
+    return true;
 }
 
 /*void ItemFound(ListNodePtr Board, char *data, char *data2){
@@ -148,7 +149,6 @@ void Edit_List(){
 	printf("Edit %s\n", file);
 	unsigned short int user_choice;
 	char list_input[50];
-	char line[50];
 	char item_input[50];
 	char ch;
 	FILE *fp;
@@ -196,13 +196,37 @@ void Edit_List(){
 			printf("Enter the name of the item to edit:\n");
 			fgets(item_input, 50, stdin);
 
+			/*****************************************************************
+			 * Trying to solve whitespace problem before item in linked list *
+			 *****************************************************************/
+			//char tab[50];
+			//tab[0] = "";
+			//strcat(tab, item_input);
+
 			printf("Looking for %s\n", item_input);
 
 			ListNodePtr personPtr = Board;
 			ListNodePtr itemPtr = Board;
 
-			while(personPtr){
-				/*WORKING ON IT NOW*/
+			while(personPtr != NULL){
+				if(strcmp(personPtr->name, list_input) == 0){
+					break;
+				}
+				personPtr = personPtr->next;
+			}
+
+			printf("Now personPtr is %s \n", personPtr->name);
+
+			itemPtr = personPtr;
+			itemPtr = itemPtr->next;
+
+			while(itemPtr != NULL || !itemPtr->person){
+				if(strcmp(itemPtr->name, item_input) == 0){
+					printf("%s found!\n", item_input);
+					break;
+				}
+				printf("Now: %s \n", itemPtr->name);
+				itemPtr = itemPtr->next;
 			}
 	}
 	fclose(fp);
@@ -227,7 +251,7 @@ void Edit_Board(){
 	case 1:
 		printf("Enter the name of the list to edit\n");
 		fflush(stdout);
-		fgets(node1, 80, stdin);
+		//fgets(node1, 80, stdin);  It returns c:246:9: error: passing 'struct listnode' to parameter of incompatible type 'char *'
 
 		printf("List Found\n");
 		fflush(stdout);
@@ -248,7 +272,7 @@ void Edit_Board(){
 	case 4:
 		printf("Returning you to the main menu.\n");
 		fflush(stdout);
-		main();
+		//main(); It returns /src/Functions3.c:267:3: error: implicit declaration of function 'main' is invalid in C99
 		break;
 	default:
 		printf("You have entered an invalid option. Please try again.\n");
