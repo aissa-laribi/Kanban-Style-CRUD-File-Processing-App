@@ -126,16 +126,39 @@ bool ListFound(ListNodePtr Board, char *data){
     return true;
 }
 
-/*void ItemFound(ListNodePtr Board, char *data, char *data2){
-	if(!ListFound(Board, data)){
-		printf("%s not associated with %s\n", data, data2);
-	} else{
-		ListNodePtr currentListPtr = Board;
-		while(strcmp(data, Board->name) != 0){
-			Board = Board->next;
-		}
-	}*/
+void InsertItem(ListNodePtr Board, char *Person, char *Item){
+	if(ListFound(Board, *Person)){
 
+
+
+		ListNodePtr personPtr = Board;
+		ListNodePtr itemPtr = Board;
+
+		while(personPtr != NULL){
+			if(strcmp(personPtr->name, Person) == 0){
+				break;
+			}
+			personPtr = personPtr->next;
+		}
+
+		itemPtr = personPtr;
+		itemPtr = itemPtr->next;
+
+		while(itemPtr != NULL || !itemPtr->person){
+			if(strcmp(itemPtr->name, Item) == 0){
+
+
+				break;
+			}
+			printf("Now: %s \n", itemPtr->name);
+			fflush(stdout);
+			itemPtr = itemPtr->next;
+		}
+
+	} else{
+		printf("There is a problem, we cannot find a list starting with %s\n", Person);
+	}
+}
 
 
 
@@ -196,15 +219,12 @@ void Edit_List(){
 			printf("Enter the name of the item to edit:\n");
 			fgets(item_input, 50, stdin);
 
-			/*****************************************************************
-			 * Trying to solve whitespace problem before item in linked list *
-			 *****************************************************************/
-			//char tab[50];
-			//tab[0] = "";
-			//strcat(tab, item_input);
+			char item[50];
+			strcpy(item, "	");
+			strcat(item, item_input);
 
-			printf("Looking for %s\n", item_input);
-
+			printf("Looking for %s\n", item);
+			fflush(stdout);
 			ListNodePtr personPtr = Board;
 			ListNodePtr itemPtr = Board;
 
@@ -221,13 +241,24 @@ void Edit_List(){
 			itemPtr = itemPtr->next;
 
 			while(itemPtr != NULL || !itemPtr->person){
-				if(strcmp(itemPtr->name, item_input) == 0){
-					printf("%s found!\n", item_input);
+				if(strcmp(itemPtr->name, item) == 0){
+					printf("%s found!\n", item);
+					fflush(stdout);
+					printf("Enter the new name:");
+					fflush(stdout);
+					fgets(item_input, 50, stdin);
+					strcpy(item, "	");
+					strcat(item, item_input);
+					strcpy(itemPtr->name, item);
 					break;
 				}
 				printf("Now: %s \n", itemPtr->name);
+				fflush(stdout);
 				itemPtr = itemPtr->next;
 			}
+			printf("Updated List:\n");
+			print_chain(Board);
+
 	}
 	fclose(fp);
 	}
