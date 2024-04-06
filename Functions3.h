@@ -17,6 +17,7 @@ void Display_Board();
 void chain(ListNodePtr *sPtr, char *data, unsigned int person_or_item);
 void print_chain(ListNodePtr Board);
 void Load_Board();
+bool ItemFound(ListNodePtr Board);
 void Edit_List();
 void Edit_Board();
 void Save_Board();
