@@ -201,9 +201,53 @@ void Edit_List(){
 	fclose(fp);
 }
 
+
 void Edit_Board(){
-	printf("Dummy function");
+	int choice = 0;
+	struct listnode node1, node2, node3;
+	printf("Options\n"
+			"1. Edit The Name Of A List\n"
+			"2. Add A New List\n"
+			"3. Delete A List\n"
+			"4. Return To Main Menu\n"
+			);
 	fflush(stdout);
+	printf("Enter Your Choice\n");
+	fflush(stdout);
+	scanf("%d", &choice);
+
+	switch(choice){
+	case 1:
+		printf("Enter the name of the list to edit\n");
+		fflush(stdout);
+		fgets(node1, 80, stdin);
+		
+		printf("List Found\n");
+		fflush(stdout);
+		printf("Enter the new name for this list.\n");
+		fflush(stdout);
+		//func
+		break;
+	case 2:
+		printf("Enter the name of the new list\n");
+		fflush(stdout);
+		//func
+		break;
+	case 3:
+		printf("Enter the name of the list to delete\n");
+		fflush(stdout);
+		//func
+		break;
+	case 4:
+		printf("Returning you to the main menu.\n");
+		fflush(stdout);
+		main();
+		break;
+	default:
+		printf("You have entered an invalid option. Please try again.\n");
+		Edit_Board();
+		break;
+	}
 }
 
 void Save_Board(){

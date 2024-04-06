@@ -24,19 +24,15 @@ int main(void) {
 		break;
 	case 3:
 		Edit_List();
-		main();
 		break;
 	case 4:
 		Edit_Board();
-		main();
 		break;
 	case 5:
 		Save_Board();
-		main();
 		break;
 	case 6:
 		printf("Exiting Program.");
-		main();
 		fflush(stdout);
 		break;
 	default:
