@@ -129,12 +129,17 @@ bool ListFound(ListNodePtr Board, char *data){
 }
 
 void InsertItem(ListNodePtr Board, char *Person, char *Item){
-	if(ListFound(Board, *Person)){
+	if(ListFound(Board, Person)){
 
 
 
 		ListNodePtr personPtr = Board;
 		ListNodePtr itemPtr = Board;
+		ListNodePtr newPtr = malloc(sizeof(ListNode));
+		strcpy(newPtr->name, Item);
+		newPtr->person = 0;
+		newPtr->next = NULL;
+
 
 		while(personPtr != NULL){
 			if(strcmp(personPtr->name, Person) == 0){
@@ -146,14 +151,18 @@ void InsertItem(ListNodePtr Board, char *Person, char *Item){
 		itemPtr = personPtr;
 		itemPtr = itemPtr->next;
 
-		while(itemPtr != NULL || !itemPtr->person){
-			if(strcmp(itemPtr->name, Item) == 0){
-
-
+		while(itemPtr != NULL){
+			if(itemPtr->next == NULL){
+				itemPtr->next = newPtr;
+				break;
+			} else if(itemPtr->next->person){
+				personPtr = itemPtr->next;
+				newPtr->next = personPtr;
+				itemPtr->next = newPtr;
 				break;
 			}
-			printf("Now: %s \n", itemPtr->name);
-			fflush(stdout);
+			//printf("Now: %s \n", itemPtr->name);
+			//fflush(stdout);
 			itemPtr = itemPtr->next;
 		}
 
@@ -178,12 +187,7 @@ void Edit_List(){
 	char list_input[50];
 	char item_input[50];
 	char ch;
-	FILE *fp;
 
-	if((fp = fopen(file, "r+"))== NULL) {
-		printf("File failed to be opened. Please enter the name again.\n");
-		fflush(stdout);
-	}
 
 	printf("Enter the name of the list to edit:");
 	fflush(stdout);
@@ -192,8 +196,8 @@ void Edit_List(){
 	list_input[strlen(list_input)] = '\n';
 	printf("Looking for %s", list_input);
 	fflush(stdout);
-	/*Testing printing input file*/
 
+	LISTMENU:
 	if(ListFound(Board, list_input)){
 			printf("Options:\n "
 					"1. Edit an item\n"
@@ -223,12 +227,13 @@ void Edit_List(){
 		}
 
 		switch(user_choice){
+		char item[50];
 		case 1:
 			printf("Enter the name of the item to edit:\n");
 			fflush(stdout);
 			fgets(item_input, 50, stdin);
 
-			char item[50];
+
 			strcpy(item, "	");
 			strcat(item, item_input);
 
@@ -268,9 +273,21 @@ void Edit_List(){
 			printf("Updated List:\n");
 			fflush(stdout);
 			print_chain(Board);
+			goto LISTMENU;
+		case 2:
+			printf("Enter the name of the item to add:\n");
+			fflush(stdout);
+			fgets(item_input, 50, stdin);
+
+			strcpy(item, "	");
+			strcat(item, item_input);
+			InsertItem(Board, list_input, item);
+			printf("Updated List:\n");
+			fflush(stdout);
+			print_chain(Board);
+			goto LISTMENU;
 
 	}
-	fclose(fp);
 	}
 }
 
