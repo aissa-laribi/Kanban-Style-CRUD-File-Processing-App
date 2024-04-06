@@ -64,7 +64,7 @@ void chain(ListNodePtr *sPtr, char *data, unsigned int person_or_item){
 }
 void print_chain(ListNodePtr Board){
     while ( Board != NULL ) {
-    	Board->name[(strlen(Board->name)) - 1] = '>';
+
         printf( "%d %s",  Board->person, Board->name);
         Board = Board->next;
      }
@@ -104,23 +104,38 @@ void Load_Board(){
 	}
 	fclose(fp);
 	print_chain(Board);
+	print_chain(Board);
 }
 
 bool ListFound(ListNodePtr Board, char *data){
-    while ( Board != NULL ) {
-    	if(Board->person && (strcmp(data, Board->name))){
+
+	ListNodePtr CurrentPtr = Board;
+
+    while ( CurrentPtr  != NULL ) {
+    	if(CurrentPtr ->person && strcmp(data, CurrentPtr ->name) == 0 ){
     		printf("List found\n");
     		fflush(stdout);
     		return true;
-    	} else{
-    		printf("List not found\n");
-    		fflush(stdout);
-    		return false;
     	}
-        Board = Board->next;
+    	if (CurrentPtr->next  == NULL){
+    		printf("List not found\n");
+    	}
+    	CurrentPtr  = CurrentPtr ->next;
      }
 
 }
+
+/*void ItemFound(ListNodePtr Board, char *data, char *data2){
+	if(!ListFound(Board, data)){
+		printf("%s not associated with %s\n", data, data2);
+	} else{
+		ListNodePtr currentListPtr = Board;
+		while(strcmp(data, Board->name) != 0){
+			Board = Board->next;
+		}
+	}*/
+
+
 
 
 void Edit_List(){
@@ -132,8 +147,9 @@ void Edit_List(){
 
 	printf("Edit %s\n", file);
 	unsigned short int user_choice;
-	char input[50];
+	char list_input[50];
 	char line[50];
+	char item_input[50];
 	char ch;
 	FILE *fp;
 
@@ -143,13 +159,13 @@ void Edit_List(){
 	}
 
 	printf("Enter the name of the list to edit:");
-	scanf("%s", input);
-	input[strlen(input)] = ':';
-	input[strlen(input)] = '\n';
-	printf("Looking for %s", input);
+	scanf("%s", list_input);
+	list_input[strlen(list_input)] = ':';
+	list_input[strlen(list_input)] = '\n';
+	printf("Looking for %s", list_input);
 	/*Testing printing input file*/
 
-	if(  ListFound(Board, input)  ){
+	if(  ListFound(Board, list_input)  ){
 			printf("Options:\n "
 					"1. Edit an item\n"
 					"2. Add a new item\n"
@@ -175,79 +191,27 @@ void Edit_List(){
 			ch = getchar();
 		}
 
-		printf("Input before switch: %s, length %lu\n", input, strlen(input));
 		switch(user_choice){
 		case 1:
 			printf("Enter the name of the item to edit:\n");
-			fgets(input, 50, stdin);
-			int i =0;
+			fgets(item_input, 50, stdin);
 
-			printf("Input: %s, length %lu\n", input, strlen(input));
+			printf("Looking for %s\n", item_input);
 
-			/*Stuck here when comparing input let say Oculus Pro and cannot match it*/
-			fgets(line, sizeof(line), fp);
-			printf("Line: %s", line);
-			printf("%lu\n", strlen(line));
-			if(strcmp(line, input) == 0){
-				printf("True");
-				break;
+			ListNodePtr personPtr = Board;
+			ListNodePtr itemPtr = Board;
+
+			while(personPtr){
+				/*WORKING ON IT NOW*/
 			}
-			while(i < strlen(input)){
-				printf("%d %d\n", input[i], line[i]);
-				i++;
-			}
-		}
-}
+	}
 	fclose(fp);
+	}
 }
-
 
 void Edit_Board(){
-	int choice = 0;
-	struct listnode node1, node2, node3;
-	printf("Options\n"
-			"1. Edit The Name Of A List\n"
-			"2. Add A New List\n"
-			"3. Delete A List\n"
-			"4. Return To Main Menu\n"
-			);
+	printf("Dummy function");
 	fflush(stdout);
-	printf("Enter Your Choice\n");
-	fflush(stdout);
-	scanf("%d", &choice);
-
-	switch(choice){
-	case 1:
-		printf("Enter the name of the list to edit\n");
-		fflush(stdout);
-		fgets(node1, 80, stdin);
-		
-		printf("List Found\n");
-		fflush(stdout);
-		printf("Enter the new name for this list.\n");
-		fflush(stdout);
-		//func
-		break;
-	case 2:
-		printf("Enter the name of the new list\n");
-		fflush(stdout);
-		//func
-		break;
-	case 3:
-		printf("Enter the name of the list to delete\n");
-		fflush(stdout);
-		//func
-		break;
-	case 4:
-		printf("Returning you to the main menu.\n");
-		fflush(stdout);
-		main();
-		break;
-	default:
-		printf("You have entered an invalid option. Please try again.\n");
-		Edit_Board();
-		break;
-	}
 }
 
 void Save_Board(){
