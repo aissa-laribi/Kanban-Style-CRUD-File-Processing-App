@@ -108,7 +108,7 @@ void Load_Board(){
 	print_chain(Board);
 }
 
-bool ListFound(ListNodePtr Board, char *data){
+int ListFound(ListNodePtr Board, char *data){
 
 	ListNodePtr CurrentPtr = Board;
 
@@ -116,16 +116,16 @@ bool ListFound(ListNodePtr Board, char *data){
     	if(CurrentPtr ->person && strcmp(data, CurrentPtr ->name) == 0 ){
     		printf("List found\n");
     		fflush(stdout);
-    		return true;
+    		return 1;
     	}
     	if (CurrentPtr->next  == NULL){
     		printf("List not found\n");
     		fflush(stdout);
-    		return false;
+    		return 0;
     	}
     	CurrentPtr  = CurrentPtr ->next;
      }
-    return true;
+    return 1;
 }
 
 void InsertItem(ListNodePtr Board, char *Person, char *Item){
@@ -189,6 +189,7 @@ void Edit_List(){
 	char ch;
 
 
+
 	printf("Enter the name of the list to edit:");
 	fflush(stdout);
 	scanf("%s", list_input);
@@ -196,9 +197,20 @@ void Edit_List(){
 	list_input[strlen(list_input)] = '\n';
 	printf("Looking for %s", list_input);
 	fflush(stdout);
+	printf("Length of %s: %lu", list_input, strlen(list_input));
+	fflush(stdout);
 
+
+
+
+	ListNodePtr listFinder = Board;
+	while(listFinder != NULL){
+		if(listFinder->person && strcmp(list_input, listFinder ->name) == 0){
+			printf("LIST FOUND\n");
+		}
+		listFinder = listFinder->next;
+	}
 	LISTMENU:
-	if(ListFound(Board, list_input)){
 			printf("Options:\n "
 					"1. Edit an item\n"
 					"2. Add a new item\n"
@@ -287,7 +299,6 @@ void Edit_List(){
 			print_chain(Board);
 			goto LISTMENU;
 
-	}
 	}
 }
 
