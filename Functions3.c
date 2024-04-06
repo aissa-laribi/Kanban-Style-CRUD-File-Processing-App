@@ -60,6 +60,7 @@ void chain(ListNodePtr *sPtr, char *data, unsigned int person_or_item){
 
 	} else{
 		printf("No memory slot available\n");
+		fflush(stdout);
 	}
 }
 void print_chain(ListNodePtr Board){
@@ -75,7 +76,7 @@ void print_chain(ListNodePtr Board){
 void Load_Board(){
 
 	char line[50];
-	printf("Please enter the name of the file you wish to enter. Enter 'default' for the default board.\n");
+	printf("Please enter the name of the file you wish to enter. Enter 'default.txt' for the default board.\n");
 	fflush(stdout);
 
 	scanf("%s",file);
@@ -88,6 +89,7 @@ void Load_Board(){
 		printf("File failed to be opened. Please enter the name again.\n");
 		fflush(stdout);
 		/*Should exit function*/
+		//main(); may work here as it'll redirect the user to the main menu to input the text file again
 	} else {
 		printf("File opened successfully.\n");
 		fflush(stdout);
@@ -104,7 +106,6 @@ void Load_Board(){
 	}
 	fclose(fp);
 	print_chain(Board);
-	print_chain(Board);
 }
 
 bool ListFound(ListNodePtr Board, char *data){
@@ -119,6 +120,7 @@ bool ListFound(ListNodePtr Board, char *data){
     	}
     	if (CurrentPtr->next  == NULL){
     		printf("List not found\n");
+    		fflush(stdout);
     		return false;
     	}
     	CurrentPtr  = CurrentPtr ->next;
@@ -157,6 +159,7 @@ void InsertItem(ListNodePtr Board, char *Person, char *Item){
 
 	} else{
 		printf("There is a problem, we cannot find a list starting with %s\n", Person);
+		fflush(stdout);
 	}
 }
 
@@ -170,6 +173,7 @@ void Edit_List(){
 	  4. Return to main menu */
 
 	printf("Edit %s\n", file);
+	fflush(stdout);
 	unsigned short int user_choice;
 	char list_input[50];
 	char item_input[50];
@@ -182,19 +186,22 @@ void Edit_List(){
 	}
 
 	printf("Enter the name of the list to edit:");
+	fflush(stdout);
 	scanf("%s", list_input);
 	list_input[strlen(list_input)] = ':';
 	list_input[strlen(list_input)] = '\n';
 	printf("Looking for %s", list_input);
+	fflush(stdout);
 	/*Testing printing input file*/
 
-	if(  ListFound(Board, list_input)  ){
+	if(ListFound(Board, list_input)){
 			printf("Options:\n "
 					"1. Edit an item\n"
 					"2. Add a new item\n"
 					"3. Delete an item\n"
 					"4. Return to main menu\n"
 					"Enter your option: ");
+			fflush(stdout);
 		scanf("%hd", &user_choice);
 		ch = getchar();
 		while(user_choice < 1 || user_choice > 4){
@@ -206,6 +213,7 @@ void Edit_List(){
 					   "3. Delete an item\n"
 					   "4. Return to main menu\n"
 					   "Enter your option: ");
+				fflush(stdout);
 				scanf("%hd", &user_choice);
 						}
 			else{
@@ -217,6 +225,7 @@ void Edit_List(){
 		switch(user_choice){
 		case 1:
 			printf("Enter the name of the item to edit:\n");
+			fflush(stdout);
 			fgets(item_input, 50, stdin);
 
 			char item[50];
@@ -236,7 +245,7 @@ void Edit_List(){
 			}
 
 			printf("Now personPtr is %s \n", personPtr->name);
-
+			fflush(stdout);
 			itemPtr = personPtr;
 			itemPtr = itemPtr->next;
 
@@ -257,6 +266,7 @@ void Edit_List(){
 				itemPtr = itemPtr->next;
 			}
 			printf("Updated List:\n");
+			fflush(stdout);
 			print_chain(Board);
 
 	}
@@ -266,7 +276,7 @@ void Edit_List(){
 
 void Edit_Board(){
 	int choice = 0;
-	struct listnode node1, node2, node3;
+	char list_input[80];
 	printf("Options\n"
 			"1. Edit The Name Of A List\n"
 			"2. Add A New List\n"
@@ -282,7 +292,7 @@ void Edit_Board(){
 	case 1:
 		printf("Enter the name of the list to edit\n");
 		fflush(stdout);
-		//fgets(node1, 80, stdin);  It returns c:246:9: error: passing 'struct listnode' to parameter of incompatible type 'char *'
+		fgets(list_input, 80, stdin);
 
 		printf("List Found\n");
 		fflush(stdout);
@@ -303,7 +313,7 @@ void Edit_Board(){
 	case 4:
 		printf("Returning you to the main menu.\n");
 		fflush(stdout);
-		//main(); It returns /src/Functions3.c:267:3: error: implicit declaration of function 'main' is invalid in C99
+		//main();
 		break;
 	default:
 		printf("You have entered an invalid option. Please try again.\n");

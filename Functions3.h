@@ -12,7 +12,7 @@ struct listnode{
 typedef struct listnode ListNode;
 typedef ListNode *ListNodePtr;
 
-
+int main();
 void Display_Board();
 void chain(ListNodePtr *sPtr, char *data, unsigned int person_or_item);
 void print_chain(ListNodePtr Board);

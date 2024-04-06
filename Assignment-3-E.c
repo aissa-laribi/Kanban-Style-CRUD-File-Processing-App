@@ -12,9 +12,11 @@ int main(void) {
 	switch(choice){
 	case 1:
 		Display_Board();
+		main();
 		break;
 	case 2:
 		Load_Board();
+		main();
 		break;
 	case 3:
 		Edit_List();
@@ -24,6 +26,7 @@ int main(void) {
 		break;
 	case 5:
 		Save_Board();
+		main();
 		break;
 	case 6:
 		printf("Exiting Program.");
