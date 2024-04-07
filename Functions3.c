@@ -67,10 +67,13 @@ void print_chain(ListNodePtr Board){
     while ( Board != NULL ) {
 
         printf( "%d %s",  Board->person, Board->name);
+		fflush(stdout);
         Board = Board->next;
      }
     puts("");
+	fflush(stdout);
     puts("");
+	fflush(stdout);
 }
 
 void Load_Board(){
@@ -81,6 +84,7 @@ void Load_Board(){
 
 	scanf("%s",file);
 	printf("%s\n", file);
+	fflush(stdout);
 
 
 	FILE *fp;
@@ -208,6 +212,32 @@ void Delete_Item(ListNodePtr Board, char *Person, char *Item){
 				fflush(stdout);
 			}
 	}
+void InsertList(ListNodePtr Board, char *Person){
+	if(!ListFound(Board, Person)){
+		//printf("Person passed: %s", Person);
+		//fflush(stdout);
+		ListNodePtr personPtr = Board;
+		ListNodePtr newPtr = malloc(sizeof(ListNode));
+
+
+		strcpy(newPtr->name, Person);
+		newPtr->person = 1;
+		newPtr->next = NULL;
+
+		while(personPtr->next != NULL){
+			personPtr = personPtr->next;
+			//printf("Now: %s \n", personPtr->name);
+			//fflush(stdout);
+		}
+		//printf("After loop: %s \n", personPtr->name);
+		//fflush(stdout);
+		personPtr->next = newPtr;
+
+	} else{
+		printf("There is a problem, already a list starting with %s exists\n", Person);
+		fflush(stdout);
+	}
+}
 
 
 
@@ -260,6 +290,7 @@ void Edit_List(){
 		while(user_choice < 1 || user_choice > 4){
 			if(ch == '\n'){
 				puts("Invalid input");
+				fflush(stdout);
 				printf("Options:\n"
 					   "1. Edit an item\n"
 					   "2. Add a new item\n"
@@ -355,8 +386,8 @@ void Edit_List(){
 
 void Edit_Board(){
 	int main_choice = 0;
-	char list_input[80];
-	char ch;
+	char list_input[50];
+	//char ch;
 	printf("Options\n"
 			"1. Edit The Name Of A List\n"
 			"2. Add A New List\n"
@@ -369,9 +400,8 @@ void Edit_Board(){
 	scanf("%d", &main_choice);
 
 	switch(main_choice){
+
 	case 1:
-		ListNodePtr personPtr = Board;
-		ListNodePtr newPtr = malloc(sizeof(ListNode));
 
 		printf("Enter the name of the list to edit\n");
 		fflush(stdout);
@@ -380,34 +410,37 @@ void Edit_Board(){
 		list_input[strlen(list_input)] = '\n';
 		printf("Looking for %s", list_input);
 		fflush(stdout);
+
+		ListNodePtr personPtr = Board;
+		//ListNodePtr newPtr = malloc(sizeof(ListNode));
+		char list[50];
+
 		while(personPtr != NULL){
 			if(strcmp(personPtr->name, list_input) == 0){
 				break;
 			}
 			personPtr = personPtr->next;
 		}
-		if(ListFound(Board, list_input)){
 
-		printf("List Found\n");
-		fflush(stdout);
-		printf("Enter the new name for this list.\n");
-		fflush(stdout);
-		while(personPtr != NULL || !personPtr->person){
-			if(strcmp(personPtr->name, personPtr->person) == 0){
-				printf("%s found!\n", personPtr->person);
-				fflush(stdout);
-				printf("Enter the new name:");
-				fflush(stdout);
-				fgets(list_input, 50, stdin);
-				strcpy(newPtr->person, "	");
-				strcat(newPtr->person, list_input);
-				strcpy(personPtr->name, newPtr->person);
-				break;
-			}
-			printf("Now: %s \n", personPtr->name);
+		if(ListFound(Board, list_input) == 1){
 			fflush(stdout);
-			personPtr = personPtr->next;
-		}
+			printf("Enter the new name for this list.\n");
+			fflush(stdout);
+			fgets(list, 50, stdin);
+
+			while(personPtr != NULL){
+				if(strcmp(personPtr->name, list_input) == 0){
+					printf("Enter the new name:");
+					fflush(stdout);
+					fgets(list_input, 50, stdin);
+					strcpy(list, ":");
+					strcat(list_input, list);
+					strcpy(personPtr->name, list_input);
+					break;
+				}
+				personPtr = personPtr->next;
+			}
+
 		printf("Updated List:\n");
 		fflush(stdout);
 		print_chain(Board);
@@ -417,8 +450,15 @@ void Edit_Board(){
 	case 2:
 		printf("Enter the name of the new list\n");
 		fflush(stdout);
-		fgets(list_input, 50, stdin);
+		scanf("%s", list_input);
+		strcpy(list, ":");
+		strcat(list_input, list);
+		//printf("Passing %s\n", list_input);
+		//fflush(stdout);
 		InsertList(Board, list_input);
+		printf("Updated List:\n");
+		fflush(stdout);
+		print_chain(Board);
 		Edit_Board();
 		break;
 	case 3:
@@ -434,52 +474,15 @@ void Edit_Board(){
 		break;
 	default:
 		printf("You have entered an invalid option. Please try again.\n");
+		fflush(stdout);
 		Edit_Board();
 		break;
 	}
 }
 
 
-void InsertList(ListNodePtr Board, char *Person){
-	if(ListFound(Board, Person)){
-
-		ListNodePtr personPtr = Board;
-		ListNodePtr newPtr = malloc(sizeof(ListNode));
-		strcpy(newPtr->name, Person);
-		newPtr->person = 0;
-		newPtr->next = NULL;
 
 
-		while(personPtr != NULL){
-			if(strcmp(personPtr->name, Person) == 0){
-				break;
-			}
-			personPtr = personPtr->next;
-		}
-
-
-		personPtr = personPtr->next;
-
-		while(personPtr != NULL){
-			if(personPtr->next == NULL){
-				personPtr->next = newPtr;
-				break;
-			} else if(personPtr->next->person){
-				personPtr = personPtr->next;
-				newPtr->next = personPtr;
-				personPtr->next = newPtr;
-				break;
-			}
-			//printf("Now: %s \n", itemPtr->name);
-			//fflush(stdout);
-			personPtr = personPtr->next;
-		}
-
-	} else{
-		printf("There is a problem, we cannot find a list starting with %s\n", Person);
-		fflush(stdout);
-	}
-}
 
 void Save_Board(){
 	printf("Dummy function");
