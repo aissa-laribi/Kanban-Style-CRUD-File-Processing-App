@@ -172,6 +172,43 @@ void InsertItem(ListNodePtr Board, char *Person, char *Item){
 	}
 }
 
+void Delete_Item(ListNodePtr Board, char *Person, char *Item){
+	if(ListFound(Board, Person)){
+
+
+			ListNodePtr personPtr = Board;
+			ListNodePtr itemPtr = Board;
+
+			while(personPtr != NULL){
+				if(strcmp(personPtr->name, Person) == 0){
+					break;
+				}
+				personPtr = personPtr->next;
+			}
+
+			itemPtr = personPtr;
+
+			while(itemPtr != NULL){
+				if(strcmp(Item, itemPtr->next->name) == 0){
+					//printf("%s to be deleted", itemPtr->next->name);
+					//fflush(stdout);
+					ListNodePtr TempPtr = itemPtr->next;
+					itemPtr->next = itemPtr->next->next;
+					free(TempPtr);
+					break;
+				}
+
+				//printf("Now: %s \n", itemPtr->name);
+				//fflush(stdout);
+				itemPtr = itemPtr->next;
+			}
+
+			} else{
+				printf("There is a problem, we cannot find a list starting with %s\n", Person);
+				fflush(stdout);
+			}
+	}
+
 
 
 void Edit_List(){
@@ -197,8 +234,8 @@ void Edit_List(){
 	list_input[strlen(list_input)] = '\n';
 	printf("Looking for %s", list_input);
 	fflush(stdout);
-	printf("Length of %s: %lu", list_input, strlen(list_input));
-	fflush(stdout);
+	//printf("Length of %s: %lu", list_input, strlen(list_input));
+	//fflush(stdout);
 
 
 
@@ -298,7 +335,21 @@ void Edit_List(){
 			fflush(stdout);
 			print_chain(Board);
 			goto LISTMENU;
+		case 3:
+			printf("Enter the name of the item to add:\n");
+			fflush(stdout);
+			fgets(item_input, 50, stdin);
 
+			strcpy(item, "	");
+			strcat(item, item_input);
+			Delete_Item(Board, list_input, item);
+			printf("Updated List:\n");
+			fflush(stdout);
+			print_chain(Board);
+			goto LISTMENU;
+		case 4:
+			/*To be completed*/
+			break;
 	}
 }
 
