@@ -383,7 +383,38 @@ void Edit_List(){
 			break;
 	}
 }
+void DeleteList() {
+    char list_input[50];
+    printf("Enter the name of the list you wish to delete: ");
+    fflush(stdout);
+    fgets(list_input, 50, stdin);
 
+    if (list_input[strlen(list_input) - 1] == '\n'){
+        list_input[strlen(list_input) - 1] = '\0';
+
+    ListNodePtr current = Board;
+    ListNodePtr previous = NULL;
+
+    while (current != NULL) {
+        if (strcmp(current->name, list_input) == 0) {
+            if (previous == NULL) {
+                Board = current->next;
+            } else {
+                previous->next = current->next;
+            }
+            free(current);
+            printf("List '%s' deleted successfully.\n", list_input);
+            fflush(stdout);
+            return;
+        }
+        previous = current;
+        current = current->next;
+    }
+
+    printf("List '%s' not found.\n", list_input);
+    fflush(stdout);
+    }
+}
 void Edit_Board(){
 	int main_choice = 0;
 	char list_input[50];
@@ -402,7 +433,6 @@ void Edit_Board(){
 	switch(main_choice){
 
 	case 1:
-
 		printf("Enter the name of the list to edit\n");
 		fflush(stdout);
 		scanf("%s", list_input);
@@ -462,9 +492,7 @@ void Edit_Board(){
 		Edit_Board();
 		break;
 	case 3:
-		printf("Enter the name of the list to delete\n");
-		fflush(stdout);
-		//func
+		DeleteList();
 		Edit_Board();
 		break;
 	case 4:
@@ -479,10 +507,6 @@ void Edit_Board(){
 		break;
 	}
 }
-
-
-
-
 
 void Save_Board(){
 	printf("Dummy function");
