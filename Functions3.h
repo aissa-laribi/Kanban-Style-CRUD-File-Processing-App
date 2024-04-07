@@ -23,3 +23,4 @@ void Delete_Item(ListNodePtr Board, char *Person, char *Item);
 void Edit_List();
 void Edit_Board();
 void Save_Board();
+void InsertList(ListNodePtr Board, char *Person);
