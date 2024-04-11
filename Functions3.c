@@ -93,7 +93,8 @@ void Load_Board(){
 		printf("File failed to be opened. Please enter the name again.\n");
 		fflush(stdout);
 		/*Should exit function*/
-		//main(); may work here as it'll redirect the user to the main menu to input the text file again
+		/*main(); may work here as it'll redirect the user to the main menu to input the text file again */
+
 	} else {
 		printf("File opened successfully.\n");
 		fflush(stdout);
@@ -165,8 +166,8 @@ void InsertItem(ListNodePtr Board, char *Person, char *Item){
 				itemPtr->next = newPtr;
 				break;
 			}
-			//printf("Now: %s \n", itemPtr->name);
-			//fflush(stdout);
+			/*printf("Now: %s \n", itemPtr->name);*/
+			/*fflush(stdout);*/
 			itemPtr = itemPtr->next;
 		}
 
@@ -194,16 +195,16 @@ void Delete_Item(ListNodePtr Board, char *Person, char *Item){
 
 			while(itemPtr != NULL){
 				if(strcmp(Item, itemPtr->next->name) == 0){
-					//printf("%s to be deleted", itemPtr->next->name);
-					//fflush(stdout);
+					/*printf("%s to be deleted", itemPtr->next->name);*/
+					/*fflush(stdout);*/
 					ListNodePtr TempPtr = itemPtr->next;
 					itemPtr->next = itemPtr->next->next;
 					free(TempPtr);
 					break;
 				}
 
-				//printf("Now: %s \n", itemPtr->name);
-				//fflush(stdout);
+				/*printf("Now: %s \n", itemPtr->name);*/
+				/*fflush(stdout);*/
 				itemPtr = itemPtr->next;
 			}
 
@@ -214,8 +215,8 @@ void Delete_Item(ListNodePtr Board, char *Person, char *Item){
 	}
 void InsertList(ListNodePtr Board, char *Person){
 	if(!ListFound(Board, Person)){
-		//printf("Person passed: %s", Person);
-		//fflush(stdout);
+		/*printf("Person passed: %s", Person); */
+		/* fflush(stdout); */
 		ListNodePtr personPtr = Board;
 		ListNodePtr newPtr = malloc(sizeof(ListNode));
 
@@ -226,11 +227,11 @@ void InsertList(ListNodePtr Board, char *Person){
 
 		while(personPtr->next != NULL){
 			personPtr = personPtr->next;
-			//printf("Now: %s \n", personPtr->name);
-			//fflush(stdout);
+			/*printf("Now: %s \n", personPtr->name);*/
+			/*fflush(stdout);*/
 		}
-		//printf("After loop: %s \n", personPtr->name);
-		//fflush(stdout);
+		/*printf("After loop: %s \n", personPtr->name);*/
+		/*fflush(stdout);*/
 		personPtr->next = newPtr;
 
 	} else{
@@ -260,13 +261,17 @@ void Edit_List(){
 	printf("Enter the name of the list to edit:");
 	fflush(stdout);
 	scanf("%s", list_input);
+	printf("Strlen after input :%lu\n", strlen(list_input));
+	printf("last char = %c\n", list_input[strlen(list_input)]);
 	list_input[strlen(list_input)] = ':';
 	list_input[strlen(list_input)] = '\n';
-	printf("Looking for %s", list_input);
+	list_input[strlen(list_input)] = '\0';
+	printf("Strlen after input['\n'] :%lu\n", strlen(list_input));
+	printf("Looking for %s\n", list_input);
 	fflush(stdout);
-	//printf("Length of %s: %lu", list_input, strlen(list_input));
-	//fflush(stdout);
-
+	/*printf("Length of %s: %lu", list_input, strlen(list_input));*/
+	/*fflush(stdout);*/
+	print_chain(Board);
 
 
 
@@ -383,42 +388,11 @@ void Edit_List(){
 			break;
 	}
 }
-void DeleteList() {
-    char list_input[50];
-    printf("Enter the name of the list you wish to delete: ");
-    fflush(stdout);
-    fgets(list_input, 50, stdin);
 
-    if (list_input[strlen(list_input) - 1] == '\n'){
-        list_input[strlen(list_input) - 1] = '\0';
-
-    ListNodePtr current = Board;
-    ListNodePtr previous = NULL;
-
-    while (current != NULL) {
-        if (strcmp(current->name, list_input) == 0) {
-            if (previous == NULL) {
-                Board = current->next;
-            } else {
-                previous->next = current->next;
-            }
-            free(current);
-            printf("List '%s' deleted successfully.\n", list_input);
-            fflush(stdout);
-            return;
-        }
-        previous = current;
-        current = current->next;
-    }
-
-    printf("List '%s' not found.\n", list_input);
-    fflush(stdout);
-    }
-}
 void Edit_Board(){
 	int main_choice = 0;
 	char list_input[50];
-	//char ch;
+	/*char ch;*/
 	printf("Options\n"
 			"1. Edit The Name Of A List\n"
 			"2. Add A New List\n"
@@ -433,16 +407,18 @@ void Edit_Board(){
 	switch(main_choice){
 
 	case 1:
+
 		printf("Enter the name of the list to edit\n");
 		fflush(stdout);
 		scanf("%s", list_input);
 		list_input[strlen(list_input)] = ':';
 		list_input[strlen(list_input)] = '\n';
+		printf("list_input = %s", list_input);
 		printf("Looking for %s", list_input);
 		fflush(stdout);
 
 		ListNodePtr personPtr = Board;
-		//ListNodePtr newPtr = malloc(sizeof(ListNode));
+		/*ListNodePtr newPtr = malloc(sizeof(ListNode));*/
 		char list[50];
 
 		while(personPtr != NULL){
@@ -483,8 +459,8 @@ void Edit_Board(){
 		scanf("%s", list_input);
 		strcpy(list, ":");
 		strcat(list_input, list);
-		//printf("Passing %s\n", list_input);
-		//fflush(stdout);
+		/*printf("Passing %s\n", list_input);*/
+		/*fflush(stdout);*/
 		InsertList(Board, list_input);
 		printf("Updated List:\n");
 		fflush(stdout);
@@ -492,13 +468,14 @@ void Edit_Board(){
 		Edit_Board();
 		break;
 	case 3:
-		DeleteList();
+		printf("Enter the name of the list to delete\n");
+		fflush(stdout);
+		/*func*/
 		Edit_Board();
 		break;
 	case 4:
 		printf("Returning you to the main menu.\n");
 		fflush(stdout);
-		//main();
 		break;
 	default:
 		printf("You have entered an invalid option. Please try again.\n");
@@ -507,8 +484,67 @@ void Edit_Board(){
 		break;
 	}
 }
+void DeleteList() {
+    char list_input[50];
+    printf("Enter the name of the list you wish to delete: ");
+    fflush(stdout);
+    fgets(list_input, 50, stdin);
+
+    if (list_input[strlen(list_input) - 1] == '\n'){
+        list_input[strlen(list_input) - 1] = '\0';
+
+    ListNodePtr current = Board;
+    ListNodePtr previous = NULL;
+
+    while (current != NULL) {
+        if (strcmp(current->name, list_input) == 0) {
+            if (previous == NULL) {
+                Board = current->next;
+            } else {
+                previous->next = current->next;
+            }
+            free(current);
+            printf("List '%s' deleted successfully.\n", list_input);
+            fflush(stdout);
+            return;
+        }
+        previous = current;
+        current = current->next;
+    }
+
+    printf("List '%s' not found.\n", list_input);
+    fflush(stdout);
+    }
+}
+
 
 void Save_Board(){
 	printf("Dummy function");
 	fflush(stdout);
+	char file[50];
+	FILE *fp;
+	printf("Enter filename.\n");
+	fflush(stdout);
+
+	scanf("%s",file);
+	printf("%s\n", file);
+	fflush(stdout);
+
+	fp = fopen(file, "w");
+
+
+	if (fp == NULL ) {
+		printf("File failed to be opened. Please enter the name again.\n");
+		fflush(stdout);
+	}
+	while(Board != NULL){
+			fwrite(Board->name, 1, sizeof(Board->name), fp);
+			printf("%s", Board->name);
+			Board = Board->next;
+			fflush(stdout);
+		}
+	fclose(fp);
+
+
+
 }

@@ -2,17 +2,9 @@
 #include <stdlib.h>
 #include "Functions3.h"
 
- /* _   ______  ___    __ 
-   / | / / __ \/   |  / / 
-  /  |/ / /_/ / /| | / /  
- / /|  / _, _/ ___ |/ /___
-/_/ |_/_/ |_/_/  |_/_____/
-                          
-*/
-
 int main(void) {
 	int choice = 0;
-
+	while (choice != 6){
 	printf("Menu:\n1. Display Board\n2. Load Board From File\n3. Edit List\n4. Edit Board\n5. Save Board To A File\n6. Quit\nEnter Your Choice (1-6)\n");
 	fflush(stdout);
 	scanf("%d", &choice);
@@ -39,6 +31,7 @@ int main(void) {
 	case 6:
 		printf("Exiting Program.");
 		fflush(stdout);
+		goto ENDTAG;
 		break;
 	default:
 		printf("You have entered an invalid choice. Please try again.\n");
@@ -46,5 +39,29 @@ int main(void) {
 		main();
 		break;
 	}
+	}
+	ENDTAG:
+	printf("			                    ##############                       \n" /*Pacman*/
+	        	   "			                  ##################                     \n"
+	        	   "			               ########################                  \n"
+	               "			              ##########################                 \n"
+	               "			              ################### ######                 \n"
+	               "			             ############################                \n"
+	               "			             ############################                \n"
+	               "			            ###########################                  \n"
+	               "			            #######################   ***                \n"
+	        	   "			            ####################     *****               \n"
+	        	   "			            ####################     *****               \n"
+	         	   "			            #######################   ***                \n"
+	          	   "			            ##########################                   \n"
+	           	   "			             ###########################                 \n"
+	               "			             ###########################                 \n"
+	               "			              #########################                  \n"
+	               "			              #########################                  \n"
+	               "			               #######################                   \n"
+	               "			                 ###################                     \n"
+	               "			                   ###############                       \n"
+	        );
 
+	return 0;
 }
