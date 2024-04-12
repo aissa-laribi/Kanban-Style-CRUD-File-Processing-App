@@ -3,7 +3,7 @@
 Command Line Interface generating a Kanban-style board with lists that contain items
 and an interface that allows the user to edit it, load it and save it 
 
-##Functionalities
+## Functionalities
 
 * Display a board example
 * Load a text file representing a board
